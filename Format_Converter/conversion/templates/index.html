@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <style>
+            /* Reset default browser styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #ef1d1d;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.converter-form {
+    margin-top: 20px;
+}
+
+.converter-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.converter-form input[type="file"] {
+    margin-top: 5px;
+}
+
+.converter-form input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.converter-form input[type="submit"]:hover {
+    background-color: #555;
+}
+
+.converter-form input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.result {
+    margin-top: 20px;
+}
+
+.result img {
+    max-width: 100%;
+    height: auto;
+}
+
+.swiper-container {
+    width: 100%;
+    height: 50vh;
+    margin-top: 20px;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide-content {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+.swiper-pagination {
+    position: relative;
+    bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.swiper-pagination-bullet {
+    background-color: #fff;
+    width: 8px;
+    height: 8px;
+    margin: 0 4px;
+    border-radius: 50%;
+}
+
+.swiper-button-next, .swiper-button-prev {
+    position: absolute;
+    top: var(--swiper-navigation-top-offset, 75%);
+    width: calc(var(--swiper-navigation-size)/ 44 * 27);
+    height: var(--swiper-navigation-size);
+    margin-top: calc(0px - (var(--swiper-navigation-size)/ 2));
+    z-index: 10;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--swiper-navigation-color, var(--swiper-theme-color));
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    background-color: #ef1d1d;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.file-label {
+    position: absolute;
+    right: 550px;
+    top: 120px;
+    font-size: 30px;
+}
+
+.file-label1 {
+    position: absolute;
+    right: 484px;
+}
+
+.file-label2 {
+    position: absolute;
+    right: 590px;
+    top: 215px;
+}
+        </style>
+        <title>JPG to PDF Converter</title>
+    </head>
+<body> 
+    <header>
+        <h1>JPG to PDF Converter</h1>
+    </header>
+    <div class="container">
+        <form class="converter-form" action="/convert" method="post" enctype="multipart/form-data" onsubmit="return convertToPDF()">
+            <label for="file" class="file-label"><b>Select JPG File</b></label>
+            <input class="file-label1" type="file" name="file" id="file" accept=".jpg,.jpeg,.png" required><br>
+            <input class="file-label2" type="submit" value="Convert to PDF">
+        </form>
+        <div class="result" id="result">
+            <!-- Result will be displayed here -->
+        </div>
+    </div>
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1600492515568-8868f609511e?q=80&w=1900&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                <div class="slide-content">
+                    <h2>Step 1</h2>
+                    <p>Click on the "Select JPG File" button.</p>
+                </div>
+            </div>
+            <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1560416313-414b33c856a9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                <div class="slide-content">
+                    <h2>Step 2</h2>
+                    <p>Choose the JPG file you want to convert.</p>
+                </div>
+            </div>
+            <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1587440871875-191322ee64b0?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                <div class="slide-content">
+                    <h2>Step 3</h2>
+                    <p>Click "Convert to PDF" button.</p>
+                </div>
+            </div>
+            <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                <div class="slide-content">
+                    <h2>Step 4</h2>
+                    <p>Wait for the conversion to complete.</p>
+                </div>
+            </div>
+            <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                <div class="slide-content">
+                    <h2>Step 5</h2>
+                    <p>Download your converted PDF.</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 JPG to PDF Converter. All rights reserved.</p>
+    </footer>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+            });
+        });
+    </script>
+</body>
+</html>
